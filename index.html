@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>SIP Abacus Mock Exam — All Levels</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F1826">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Abacus Exam">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1F1826; --surface:#2A2233; --surfaceAlt:#342A40; --line:#463A54;
+    --gold:#C9A227; --goldLight:#E4C24E; --bead:#B14449; --beadLight:#CE6367;
+    --success:#5CA97A; --fail:#C2555A; --text:#F0E9DC; --dim:#B3A8C2;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; min-height:100vh;}
+  input{font-family:'IBM Plex Mono',monospace;}
+  input[type=number]::-webkit-inner-spin-button{opacity:1;}
+  .wrap{max-width:640px; margin:0 auto; padding:28px 18px 90px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;}
+  h1{font-family:'Fraunces',serif; font-weight:700; font-size:30px; line-height:1.15; margin:0;}
+  h2{font-family:'Fraunces',serif; font-weight:700; font-size:26px; margin:0 0 4px;}
+  p.sub{color:var(--dim); font-size:14px; line-height:1.5; margin:10px 0 0;}
+  .rod{width:100%; margin-top:20px;}
+  .rod-label{font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;}
+  .rod-track{position:relative; display:flex; align-items:center; height:26px;}
+  .rod-line{position:absolute; left:0; right:0; height:3px; background:var(--gold); opacity:0.5; border-radius:2px;}
+  .rod-beads{position:relative; display:flex; justify-content:space-between; width:100%;}
+  .bead{width:17px; height:17px; border-radius:50%; background:var(--surfaceAlt); border:2px solid var(--line); transition:background .35s ease, border-color .35s ease;}
+  .bead.on{background:var(--bead); border-color:var(--beadLight);}
+
+  .module-tabs{display:flex; gap:8px; margin-top:20px;}
+  .module-tab{flex:1; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 6px; text-align:center; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:600; color:var(--dim);}
+  .module-tab.active{background:var(--surfaceAlt); border-color:var(--gold); color:var(--goldLight);}
+  .level-chips{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+  .level-chip{background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:8px 16px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--text); cursor:pointer;}
+  .level-chip.active{background:var(--gold); border-color:var(--gold); color:#221A0A; font-weight:700;}
+  .level-banner{margin-top:16px; padding:12px 14px; background:var(--surfaceAlt); border:1px solid var(--line); border-radius:10px; font-size:12px; color:var(--dim); line-height:1.5;}
+  .level-banner b{color:var(--text);}
+
+  .cats{display:flex; flex-direction:column; gap:10px; margin:18px 0 16px;}
+  .cat{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 16px; text-align:left; cursor:pointer; display:flex; align-items:center; justify-content:space-between; width:100%;}
+  .cat.active{background:var(--surfaceAlt); border-color:var(--gold);}
+  .cat .name{font-family:'Fraunces',serif; font-weight:600; font-size:18px;}
+  .cat .desc{color:var(--dim); font-size:12px; margin-top:2px;}
+  .chev{color:var(--dim); font-size:18px;}
+  .cat.active .chev{color:var(--gold);}
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px 16px; margin-bottom:16px;}
+  label.field{display:flex; flex-direction:column; gap:5px;}
+  label.field span{color:var(--dim); font-size:11px;}
+  label.field .row{display:flex; align-items:center; gap:6px;}
+  .numin{width:76px; background:var(--bg); border:1px solid var(--line); color:var(--text); border-radius:6px; padding:7px 8px; font-size:14px;}
+  .suffix{color:var(--dim); font-size:12px;}
+  .btn-primary{background:var(--gold); color:#221A0A; font-family:'IBM Plex Sans',sans-serif; font-weight:600; font-size:14px; border:none; border-radius:10px; padding:12px 20px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; width:100%;}
+  .btn-primary:active{filter:brightness(0.95);}
+  .btn-ghost{background:transparent; color:var(--text); border:1px solid var(--line); font-size:14px; border-radius:10px; padding:11px 18px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;}
+  .note{color:var(--dim); font-size:12px; margin:6px 0 14px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
+  .timer{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:18px; display:flex; align-items:center; gap:6px;}
+  .qlist{display:flex; flex-direction:column; gap:10px; margin-top:18px;}
+  .qrow{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:11px 14px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+  .qrow .idx{color:var(--dim); font-family:'IBM Plex Mono',monospace; font-size:12px; width:22px; flex-shrink:0;}
+  .qrow .qtext{font-family:'IBM Plex Mono',monospace; font-size:14px; flex:1;}
+  .ans{width:80px; background:var(--bg); border:1px solid var(--line); color:var(--text); border-radius:6px; padding:7px 8px; font-size:14px; text-align:right; flex-shrink:0;}
+  .fixedbar{position:fixed; left:0; right:0; bottom:0; display:flex; justify-content:center; padding:14px 18px 20px; background:linear-gradient(to top, var(--bg) 55%, transparent);}
+  .fixedbar .btn-primary{width:auto; padding:12px 28px;}
+  .flashbox{background:var(--surface); border:1px solid var(--line); border-radius:18px; height:220px; display:flex; align-items:center; justify-content:center; margin-top:14px; position:relative; overflow:hidden;}
+  .flashnum{font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:56px;}
+  .flashmuted{font-family:'Fraunces',serif; color:var(--dim); font-size:20px;}
+  .flashinput-wrap{display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; padding:0 20px;}
+  .flashinput{width:150px; text-align:center; font-size:26px; background:var(--bg); border:1px solid var(--gold); color:var(--text); border-radius:10px; padding:10px;}
+  .ans-wrap{display:flex; align-items:center; gap:6px; flex-shrink:0;}
+  .mic-btn{width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:var(--surfaceAlt); color:var(--text); font-size:14px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; padding:0; line-height:1;}
+  .mic-btn.listening{border-color:var(--bead); background:var(--bead); animation:mic-pulse 1s infinite;}
+  @keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(177,68,73,0.55);}70%{box-shadow:0 0 0 9px rgba(177,68,73,0);}100%{box-shadow:0 0 0 0 rgba(177,68,73,0);}}
+  .voice-note{color:var(--dim); font-size:11px; margin:6px 0 0;}
+  .voice-toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px); max-width:88%; background:var(--surfaceAlt); border:1px solid var(--bead); color:var(--text); font-size:13px; padding:10px 16px; border-radius:10px; opacity:0; transition:opacity .25s ease, transform .25s ease; pointer-events:none; z-index:50; text-align:center;}
+  .voice-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  .results-row{background:var(--surface); border-radius:10px; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;}
+  .center-col{display:flex; flex-direction:column; align-items:center;}
+  @media (max-width:420px){
+    h1{font-size:24px;}
+    .grid2{grid-template-columns:1fr 1fr; gap:10px 12px;}
+    .flashnum{font-size:44px;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="voice-toast" id="voiceToast"></div>
+
+<script>
+/* ---------------- helpers ---------------- */
+const randInt = (min,max)=> Math.floor(Math.random()*(max-min+1))+min;
+const digitRange = d => [Math.pow(10,d-1), Math.pow(10,d)-1];
+const fmtTime = s => { const m=Math.floor(s/60).toString().padStart(2,'0'); const sec=Math.floor(s%60).toString().padStart(2,'0'); return m+':'+sec; };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toDecimalStr(deciAbs, decimals){
+  const scale = Math.pow(10,decimals);
+  const intPart = Math.floor(deciAbs/scale);
+  const fracPart = (deciAbs % scale).toString().padStart(decimals,'0');
+  return intPart + '.' + fracPart;
+}
+function formatMag(deciAbs, decimals){ return decimals>0 ? toDecimalStr(deciAbs, decimals) : String(deciAbs); }
+function formatSignedPart(deciVal, decimals, isFirst){
+  const mag = Math.abs(deciVal);
+  const str = formatMag(mag, decimals);
+  if(isFirst) return str;
+  return deciVal>=0 ? ('+'+str) : ('−'+str);
+}
+function answerMatches(given, correctDeci, decimals){
+  if(given===''||given===null||given===undefined) return false;
+  const num = Number(given);
+  if(Number.isNaN(num)) return false;
+  const scale = Math.pow(10,decimals||0);
+  return Math.round(num*scale) === correctDeci;
+}
+
+/* ---------------- question generators ---------------- */
+function genAdditionQuestion(digits, rows, decimals=0){
+  const scale = Math.pow(10,decimals);
+  const [lo,hi] = digitRange(digits);
+  let total = randInt(lo,hi)*scale + (decimals>0 ? randInt(0,scale-1) : 0);
+  const parts=[total];
+  for(let i=1;i<rows;i++){
+    const magLoInt = Math.pow(10, Math.max(0,digits-2));
+    const magHiInt = Math.max(magLoInt, Math.pow(10, digits-1)-1);
+    let val = randInt(magLoInt,magHiInt)*scale + (decimals>0 ? randInt(0,scale-1) : 0);
+    let sign = Math.random()<0.5? -1:1;
+    if(total+sign*val<0) sign=1;
+    total += sign*val;
+    parts.push(sign*val);
+  }
+  return {parts, answer: total, decimals};
+}
+function genMultiplication(d1,d2,decimals=0){
+  const scale = Math.pow(10,decimals);
+  const [lo1,hi1]=digitRange(d1), [lo2,hi2]=digitRange(d2);
+  const aInt = randInt(lo1,hi1);
+  const aDeci = decimals>0 ? aInt*scale + randInt(0,scale-1) : aInt;
+  const b = randInt(lo2,hi2);
+  const productDeci = aDeci*b;
+  return {display: formatMag(aDeci,decimals)+' × '+b, answer: productDeci, decimals};
+}
+function genDivision(divisorDigits, quotientDigits, decimals=0){
+  const scale = Math.pow(10,decimals);
+  const [loD,hiD]=digitRange(divisorDigits), [loQ,hiQ]=digitRange(quotientDigits);
+  const divisor = randInt(loD,hiD);
+  const qInt = randInt(loQ,hiQ);
+  const quotientDeci = decimals>0 ? qInt*scale + randInt(0,scale-1) : qInt;
+  const dividendDeci = quotientDeci*divisor;
+  return {display: formatMag(dividendDeci,decimals)+' ÷ '+divisor, answer: quotientDeci, decimals};
+}
+function genFlashRound(digits,count){ return genAdditionQuestion(digits,count,0); }
+
+/* ---------------- rod timer ---------------- */
+function rodTimer(progress, label){
+  const beadCount=10;
+  const filled = Math.round(progress*beadCount);
+  let beads='';
+  for(let i=0;i<beadCount;i++) beads += `<div class="bead ${i<filled?'on':''}"></div>`;
+  return `<div class="rod">
+    ${label? `<div class="rod-label">${esc(label)}</div>`:''}
+    <div class="rod-track"><div class="rod-line"></div><div class="rod-beads">${beads}</div></div>
+  </div>`;
+}
+
+/* ---------------- voice input ---------------- */
+const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+const SPEECH_SUPPORTED = !!SpeechRecognitionCtor;
+let activeRecognition = null;
+let toastTimer = null;
+
+function showVoiceToast(msg){
+  const t = document.getElementById('voiceToast');
+  if(!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 4200);
+}
+function wordsToNumber(transcriptRaw){
+  if(!transcriptRaw) return null;
+  let text = transcriptRaw.toLowerCase().trim().replace(/[.,]/g,'');
+  const digitMatch = text.match(/-?\d+(\.\d+)?/);
+  if(digitMatch) return parseFloat(digitMatch[0]);
+  let negative = false;
+  if(/^(minus|negative)\b/.test(text)){ negative = true; text = text.replace(/^(minus|negative)\s*/,''); }
+  const words = text.split(/[\s-]+/).filter(Boolean);
+  if(words.length===0) return null;
+  const digitWord = {zero:0, oh:0, one:1, two:2, three:3, four:4, five:5, six:6, seven:7, eight:8, nine:9};
+  if(words.every(w => w in digitWord)){
+    const numStr = words.map(w => digitWord[w]).join('');
+    const val = parseInt(numStr,10);
+    return negative ? -val : val;
+  }
+  const tensWord = {twenty:20, thirty:30, forty:40, fourty:40, fifty:50, sixty:60, seventy:70, eighty:80, ninety:90};
+  const teensWord = {ten:10, eleven:11, twelve:12, thirteen:13, fourteen:14, fifteen:15, sixteen:16, seventeen:17, eighteen:18, nineteen:19};
+  const scaleWord = {hundred:100, thousand:1000};
+  let total = 0, current = 0, matched = false;
+  for(const w of words){
+    if(w==='and') continue;
+    if(w in digitWord){ current += digitWord[w]; matched = true; }
+    else if(w in teensWord){ current += teensWord[w]; matched = true; }
+    else if(w in tensWord){ current += tensWord[w]; matched = true; }
+    else if(w in scaleWord){
+      matched = true;
+      current = current===0 ? scaleWord[w] : current*scaleWord[w];
+      if(scaleWord[w]===1000){ total += current; current = 0; }
+    }
+  }
+  total += current;
+  if(!matched) return null;
+  return negative ? -total : total;
+}
+function setInputValueAndNotify(id, value){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.value = value;
+  el.dispatchEvent(new Event('input', {bubbles:true}));
+  el.dispatchEvent(new Event('change', {bubbles:true}));
+}
+function voiceErrorMessage(err){
+  switch(err){
+    case 'not-allowed':
+    case 'permission-denied':
+      return 'Microphone permission was blocked. Check your browser\'s site settings and allow the microphone.';
+    case 'service-not-allowed':
+      return 'Voice input isn\'t available on a locally-opened file. Host this page online (https) and open it from there.';
+    case 'no-speech':
+      return 'No speech detected — tap the mic and speak right away.';
+    case 'audio-capture':
+      return 'No microphone was found on this device.';
+    case 'network':
+      return 'Voice recognition needs an internet connection.';
+    case 'aborted':
+      return null;
+    default:
+      return 'Voice input error: ' + err;
+  }
+}
+function startVoiceInput(targetId, btn){
+  if(!SPEECH_SUPPORTED) return;
+  if(!window.isSecureContext){
+    showVoiceToast('This page needs to be served over https for voice input to work — try opening it from a hosted link instead of a local file.');
+    return;
+  }
+  if(activeRecognition){ try{ activeRecognition.stop(); }catch(e){} }
+  const rec = new SpeechRecognitionCtor();
+  activeRecognition = rec;
+  rec.lang = 'en-US';
+  rec.continuous = false;
+  rec.interimResults = false;
+  rec.maxAlternatives = 3;
+  btn.classList.add('listening');
+  rec.onresult = (e)=>{
+    let num = null;
+    const alts = e.results[0];
+    for(let i=0;i<alts.length;i++){
+      const parsed = wordsToNumber(alts[i].transcript);
+      if(parsed!==null){ num = parsed; break; }
+    }
+    if(num!==null) setInputValueAndNotify(targetId, num);
+    else showVoiceToast('Didn\'t catch a number — try again, speaking clearly.');
+  };
+  rec.onerror = (e)=>{
+    btn.classList.remove('listening');
+    const msg = voiceErrorMessage(e.error);
+    if(msg) showVoiceToast(msg);
+  };
+  rec.onend = ()=>{ btn.classList.remove('listening'); activeRecognition = null; };
+  try{ rec.start(); } catch(e){ btn.classList.remove('listening'); showVoiceToast('Could not start the microphone: ' + e.message); }
+}
+
+/* ---------------- LEVEL DEFINITIONS ---------------- */
+/* SIP Abacus (India): 11 levels — Foundation 1-4, Advanced 1-4, Grand Master 1-3.
+   Exact per-level digit/timing specs aren't publicly published (they vary by
+   centre) — these are a progressively-scaled scaffold, fully editable below. */
+const LEVELS = [
+  {id:'f1', module:'Foundation', num:1, note:'Single-digit sums, bead basics.',
+    visual:{digits:1, rows:4, questions:10, minutes:5},
+    multdiv:{mulD1:1, mulD2:1, divDivisor:1, divQuotient:1, questions:10, minutes:5},
+    flash:{digits:1, count:4, speedMs:1500, rounds:8}, decimals:0},
+  {id:'f2', module:'Foundation', num:2, note:'Building rows; 2-digit × 1-digit tables.',
+    visual:{digits:1, rows:5, questions:12, minutes:5},
+    multdiv:{mulD1:2, mulD2:1, divDivisor:1, divQuotient:1, questions:10, minutes:5},
+    flash:{digits:1, count:5, speedMs:1300, rounds:8}, decimals:0},
+  {id:'f3', module:'Foundation', num:3, note:'2-digit addition; division introduced.',
+    visual:{digits:2, rows:5, questions:15, minutes:6},
+    multdiv:{mulD1:2, mulD2:1, divDivisor:1, divQuotient:2, questions:12, minutes:6},
+    flash:{digits:2, count:5, speedMs:1200, rounds:10}, decimals:0},
+  {id:'f4', module:'Foundation', num:4, note:'Longer 2-digit rows; 2×2 multiplication.',
+    visual:{digits:2, rows:6, questions:18, minutes:6},
+    multdiv:{mulD1:2, mulD2:2, divDivisor:1, divQuotient:2, questions:12, minutes:7},
+    flash:{digits:2, count:6, speedMs:1100, rounds:10}, decimals:0},
+  {id:'a1', module:'Advanced', num:1, note:'3-digit addition & subtraction begins.',
+    visual:{digits:3, rows:6, questions:20, minutes:7},
+    multdiv:{mulD1:2, mulD2:2, divDivisor:1, divQuotient:3, questions:14, minutes:8},
+    flash:{digits:2, count:6, speedMs:1000, rounds:10}, decimals:0},
+  {id:'a2', module:'Advanced', num:2, note:'Longer 3-digit rows; 3×2 multiplication.',
+    visual:{digits:3, rows:7, questions:22, minutes:8},
+    multdiv:{mulD1:3, mulD2:2, divDivisor:2, divQuotient:3, questions:15, minutes:9},
+    flash:{digits:3, count:6, speedMs:900, rounds:10}, decimals:0},
+  {id:'a3', module:'Advanced', num:3, note:'4-digit addition & subtraction.',
+    visual:{digits:4, rows:7, questions:24, minutes:8},
+    multdiv:{mulD1:3, mulD2:2, divDivisor:2, divQuotient:3, questions:15, minutes:9},
+    flash:{digits:3, count:7, speedMs:800, rounds:12}, decimals:0},
+  {id:'a4', module:'Advanced', num:4, note:'Tables to 9999; 3×3 multiplication.',
+    visual:{digits:4, rows:8, questions:26, minutes:9},
+    multdiv:{mulD1:3, mulD2:3, divDivisor:2, divQuotient:4, questions:16, minutes:10},
+    flash:{digits:3, count:7, speedMs:700, rounds:12}, decimals:0},
+  {id:'g1', module:'Grand Master', num:1, note:'Decimal addition, subtraction & multiplication begin.',
+    visual:{digits:4, rows:9, questions:28, minutes:10},
+    multdiv:{mulD1:3, mulD2:3, divDivisor:2, divQuotient:4, questions:18, minutes:11},
+    flash:{digits:3, count:8, speedMs:650, rounds:12}, decimals:1},
+  {id:'g2', module:'Grand Master', num:2, note:'5-digit whole numbers with decimals.',
+    visual:{digits:5, rows:9, questions:28, minutes:10},
+    multdiv:{mulD1:4, mulD2:3, divDivisor:2, divQuotient:4, questions:18, minutes:11},
+    flash:{digits:4, count:8, speedMs:600, rounds:14}, decimals:1},
+  {id:'g3', module:'Grand Master', num:3, note:'Full complexity — competitive-exam level.',
+    visual:{digits:5, rows:10, questions:30, minutes:10},
+    multdiv:{mulD1:4, mulD2:3, divDivisor:3, divQuotient:4, questions:18, minutes:12},
+    flash:{digits:4, count:9, speedMs:550, rounds:14}, decimals:1},
+];
+const MODULES = ['Foundation','Advanced','Grand Master'];
+function getLevel(id){ return LEVELS.find(l=>l.id===id); }
+function cloneCfg(lvl){
+  return {
+    visual: {...lvl.visual},
+    multdiv: {...lvl.multdiv},
+    flash: {...lvl.flash},
+    decimals: lvl.decimals
+  };
+}
+
+/* ---------------- app state ---------------- */
+const state = {
+  view:'home',
+  activeModule:'Foundation',
+  selectedLevelId:'f1',
+  activeCat:'visual',
+  cfgByLevel:{},
+  mode:null, cfg:null, decimals:0, questions:[], answers:[], secsLeft:0, timerId:null,
+  flash:{roundIdx:0, phase:'ready', flashIdx:0, round:null, results:[], token:0},
+  records:[]
+};
+function getLevelCfg(id){
+  if(!state.cfgByLevel[id]) state.cfgByLevel[id] = cloneCfg(getLevel(id));
+  return state.cfgByLevel[id];
+}
+
+const app = document.getElementById('app');
+function clearTimer(){ if(state.timerId){ clearInterval(state.timerId); state.timerId=null; } }
+
+/* ---------------- HOME ---------------- */
+function renderHome(){
+  clearTimer();
+  const lvl = getLevel(state.selectedLevelId);
+  const cfg = getLevelCfg(state.selectedLevelId);
+  const levelsInModule = LEVELS.filter(l => l.module === state.activeModule);
+
+  const cats = [
+    {id:'visual', label:'Visual', sub:'Addition & Subtraction worksheet'},
+    {id:'multdiv', label:'Multiplication & Division', sub:'Timed problem set'},
+    {id:'flash', label:'Flash Cards', sub:'Numbers flash — recall the total'}
+  ];
+  const c = state.activeCat;
+
+  let panel='';
+  if(c==='visual'){
+    const v = cfg.visual;
+    panel = `
+      <div class="grid2">
+        ${field('Digits per number','v_digits',v.digits,1,5)}
+        ${field('Rows per question','v_rows',v.rows,3,12)}
+        ${field('No. of questions','v_questions',v.questions,5,40)}
+        ${field('Time limit','v_minutes',v.minutes,2,20,'min')}
+      </div>
+      ${cfg.decimals>0 ? '<p class="note">Numbers include one decimal place at this level.</p>' : ''}
+      <button class="btn-primary" onclick="startRound('visual')">▶ Start Visual Round</button>`;
+  } else if(c==='multdiv'){
+    const m = cfg.multdiv;
+    panel = `
+      <div class="grid2">
+        ${field('Multiplicand digits','m_mulD1',m.mulD1,1,4)}
+        ${field('Multiplier digits','m_mulD2',m.mulD2,1,3)}
+        ${field('Divisor digits','m_divDivisor',m.divDivisor,1,3)}
+        ${field('Quotient digits','m_divQuotient',m.divQuotient,1,4)}
+        ${field('No. of questions','m_questions',m.questions,5,30)}
+        ${field('Time limit','m_minutes',m.minutes,2,20,'min')}
+      </div>
+      <p class="note">Questions alternate between multiplication and division.${cfg.decimals>0 ? ' Includes one decimal place.' : ''}</p>
+      <button class="btn-primary" onclick="startRound('multdiv')">▶ Start Multiplication &amp; Division</button>`;
+  } else {
+    const f = cfg.flash;
+    panel = `
+      <div class="grid2">
+        ${field('Digits per number','f_digits',f.digits,1,4)}
+        ${field('Numbers per flash','f_count',f.count,3,10)}
+        ${field('Flash speed','f_speedMs',f.speedMs,300,2000,'ms')}
+        ${field('Rounds','f_rounds',f.rounds,3,20)}
+      </div>
+      <p class="note">Flash rounds always use whole numbers, for speed.</p>
+      <button class="btn-primary" onclick="startRound('flash')">▶ Start Flash Round</button>`;
+  }
+
+  app.innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">SIP Abacus · Mock Exam Hall</div>
+    <h1>${esc(lvl.module)} ${lvl.num}</h1>
+    <p class="sub">11-level structure — Foundation 1–4, Advanced 1–4, Grand Master 1–3 — scaled from SIP Abacus's published module progression. Digit counts, rows and timing are adjustable to match your own centre's paper exactly.</p>
+    ${rodTimer(1)}
+
+    <div class="module-tabs">
+      ${MODULES.map(m => `<div class="module-tab ${m===state.activeModule?'active':''}" onclick="setModule('${m}')">${m}</div>`).join('')}
+    </div>
+    <div class="level-chips">
+      ${levelsInModule.map(l => `<div class="level-chip ${l.id===state.selectedLevelId?'active':''}" onclick="setLevel('${l.id}')">Level ${l.num}</div>`).join('')}
+    </div>
+    <div class="level-banner"><b>${esc(lvl.module)} ${lvl.num}:</b> ${esc(lvl.note)}</div>
+
+    <div class="cats">
+      ${cats.map(cat => `
+        <button class="cat ${cat.id===c?'active':''}" onclick="setActiveCat('${cat.id}')">
+          <div><div class="name">${cat.label}</div><div class="desc">${cat.sub}</div></div>
+          <div class="chev">›</div>
+        </button>`).join('')}
+    </div>
+    <div class="panel">${panel}</div>
+  </div>`;
+
+  function field(label,id,val,min,max,suffix){
+    return `<label class="field"><span>${esc(label)}</span>
+      <div class="row"><input class="numin" type="number" inputmode="numeric" id="${id}" value="${val}" min="${min}" max="${max}" onchange="clampInput(this,${min},${max})">${suffix?`<span class="suffix">${suffix}</span>`:''}</div>
+    </label>`;
+  }
+}
+function clampInput(el,min,max){
+  let v = Number(el.value)||min;
+  v = Math.max(min, Math.min(max, v));
+  el.value = v;
+}
+function setModule(m){
+  saveCfgFromInputs();
+  state.activeModule = m;
+  const first = LEVELS.find(l=>l.module===m);
+  state.selectedLevelId = first.id;
+  renderHome();
+}
+function setLevel(id){
+  saveCfgFromInputs();
+  state.selectedLevelId = id;
+  renderHome();
+}
+function setActiveCat(id){
+  saveCfgFromInputs();
+  state.activeCat = id;
+  renderHome();
+}
+function saveCfgFromInputs(){
+  const g = id => { const el=document.getElementById(id); return el? Number(el.value): null; };
+  const cfg = getLevelCfg(state.selectedLevelId);
+  if(state.activeCat==='visual'){
+    const v=cfg.visual;
+    v.digits=g('v_digits')??v.digits; v.rows=g('v_rows')??v.rows;
+    v.questions=g('v_questions')??v.questions; v.minutes=g('v_minutes')??v.minutes;
+  } else if(state.activeCat==='multdiv'){
+    const m=cfg.multdiv;
+    m.mulD1=g('m_mulD1')??m.mulD1; m.mulD2=g('m_mulD2')??m.mulD2;
+    m.divDivisor=g('m_divDivisor')??m.divDivisor; m.divQuotient=g('m_divQuotient')??m.divQuotient;
+    m.questions=g('m_questions')??m.questions; m.minutes=g('m_minutes')??m.minutes;
+  } else {
+    const f=cfg.flash;
+    f.digits=g('f_digits')??f.digits; f.count=g('f_count')??f.count;
+    f.speedMs=g('f_speedMs')??f.speedMs; f.rounds=g('f_rounds')??f.rounds;
+  }
+}
+
+/* ---------------- START / WORKSHEET ROUND ---------------- */
+function startRound(mode){
+  saveCfgFromInputs();
+  const levelCfg = getLevelCfg(state.selectedLevelId);
+  const decimals = levelCfg.decimals || 0;
+  state.mode = mode;
+  state.decimals = decimals;
+  if(mode==='visual'){
+    state.cfg = {...levelCfg.visual};
+    state.questions = Array.from({length:state.cfg.questions}).map(()=>genAdditionQuestion(state.cfg.digits, state.cfg.rows, decimals));
+  } else if(mode==='multdiv'){
+    state.cfg = {...levelCfg.multdiv};
+    state.questions = Array.from({length:state.cfg.questions}).map((_,i)=> i%2===0 ? genMultiplication(state.cfg.mulD1,state.cfg.mulD2,decimals) : genDivision(state.cfg.divDivisor,state.cfg.divQuotient,decimals));
+  } else {
+    state.cfg = {...levelCfg.flash};
+    state.flash = {roundIdx:0, phase:'ready', flashIdx:0, round:genFlashRound(state.cfg.digits,state.cfg.count), results:[], token: state.flash.token+1};
+    state.view='running';
+    renderFlash();
+    return;
+  }
+  state.answers = Array(state.questions.length).fill('');
+  state.secsLeft = state.cfg.minutes*60;
+  state.view='running';
+  renderWorksheet();
+  clearTimer();
+  state.timerId = setInterval(()=>{
+    state.secsLeft -= 1;
+    if(state.secsLeft<=0){ submitWorksheet(); return; }
+    updateWorksheetTimer();
+  },1000);
+}
+
+function renderWorksheet(){
+  const mode = state.mode;
+  const decimals = state.decimals;
+  const title = mode==='visual' ? 'Visual Round' : 'Multiplication &amp; Division';
+  const inputMode = decimals>0 ? 'decimal' : 'numeric';
+  const step = decimals>0 ? 'any' : '1';
+  const rows = state.questions.map((q,i)=>{
+    const qtext = mode==='visual'
+      ? q.parts.map((p,j)=> formatSignedPart(p, decimals, j===0)).join(' ')
+      : q.display;
+    return `<div class="qrow">
+      <div style="display:flex; align-items:baseline; gap:10px; flex:1; min-width:0;">
+        <span class="idx">${i+1}.</span><span class="qtext">${esc(qtext)}</span>
+      </div>
+      <div class="ans-wrap">
+        <input class="ans" type="number" step="${step}" inputmode="${inputMode}" id="ans_${i}" value="${state.answers[i]}" oninput="state.answers[${i}]=this.value" placeholder="ans">
+        ${SPEECH_SUPPORTED ? `<button type="button" class="mic-btn" title="Answer by voice" onclick="startVoiceInput('ans_${i}', this)">🎤</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  app.innerHTML = `
+  <div class="wrap">
+    <div class="topbar">
+      <div class="eyebrow" style="margin-bottom:0;">${title}</div>
+      <div class="timer" id="timerDisplay">⏱ ${fmtTime(state.secsLeft)}</div>
+    </div>
+    <div style="margin-top:10px;">${rodTimer(state.secsLeft/(state.cfg.minutes*60))}</div>
+    ${!SPEECH_SUPPORTED ? `<div class="voice-note">Voice input isn't supported in this browser — try Chrome on Android for the 🎤 option.</div>` : ''}
+    <div class="qlist">${rows}</div>
+  </div>
+  <div class="fixedbar"><button class="btn-primary" onclick="submitWorksheet()">✓ Submit Worksheet</button></div>`;
+}
+function updateWorksheetTimer(){
+  const td = document.getElementById('timerDisplay');
+  if(td){
+    td.textContent = '⏱ ' + fmtTime(state.secsLeft);
+    td.style.color = state.secsLeft<30 ? 'var(--fail)' : 'var(--text)';
+  }
+  const beads = document.querySelectorAll('.rod-beads .bead');
+  const filled = Math.round((state.secsLeft/(state.cfg.minutes*60))*10);
+  beads.forEach((b,i)=> b.classList.toggle('on', i<filled));
+}
+function submitWorksheet(){
+  clearTimer();
+  const decimals = state.decimals;
+  const records = state.questions.map((q,i)=>({q, given: state.answers[i], correct: q.answer, decimals}));
+  state.records = records;
+  state.view='results';
+  renderResults();
+}
+
+/* ---------------- FLASH CARDS (always whole numbers) ---------------- */
+function renderFlash(){
+  const fl = state.flash, cfg = state.cfg;
+  app.innerHTML = `
+  <div class="wrap center-col">
+    <div class="topbar" style="width:100%;">
+      <div class="eyebrow" style="margin-bottom:0;">Flash Round</div>
+      <div style="font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:13px;">${fl.roundIdx+1} / ${cfg.rounds}</div>
+    </div>
+    <div style="width:100%; margin-top:10px;">${rodTimer((fl.roundIdx + (fl.phase==='input'||fl.phase==='pause'?1:0))/cfg.rounds)}</div>
+    <div class="flashbox" id="flashbox"></div>
+    <div id="flashActionArea" style="width:100%; margin-top:18px;"></div>
+  </div>`;
+  runFlashPhase();
+}
+function runFlashPhase(){
+  const fl = state.flash, cfg = state.cfg, myToken = fl.token;
+  const box = document.getElementById('flashbox');
+  const actionArea = document.getElementById('flashActionArea');
+  if(!box) return;
+
+  if(fl.phase==='ready'){
+    box.innerHTML = `<span class="flashmuted">Get ready…</span>`;
+    actionArea.innerHTML='';
+    setTimeout(()=>{ if(fl.token!==myToken) return; fl.phase='flashing'; fl.flashIdx=0; runFlashPhase(); }, 900);
+  } else if(fl.phase==='flashing'){
+    if(fl.flashIdx >= fl.round.parts.length){
+      fl.phase='input';
+      runFlashPhase();
+      return;
+    }
+    const val = fl.round.parts[fl.flashIdx];
+    const displayVal = formatSignedPart(val, 0, fl.flashIdx===0);
+    box.innerHTML = `<span class="flashnum" style="color:${val>=0?'var(--text)':'var(--bead)'}">${displayVal}</span>`;
+    setTimeout(()=>{ if(fl.token!==myToken) return; fl.flashIdx += 1; runFlashPhase(); }, cfg.speedMs);
+  } else if(fl.phase==='input'){
+    box.innerHTML = `<div class="flashinput-wrap">
+      <span style="color:var(--dim); font-size:14px;">What's the total?</span>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <input class="flashinput" type="number" inputmode="numeric" id="flashAnswerInput" autofocus>
+        ${SPEECH_SUPPORTED ? `<button type="button" class="mic-btn" title="Answer by voice" onclick="startVoiceInput('flashAnswerInput', this)">🎤</button>` : ''}
+      </div>
+      ${!SPEECH_SUPPORTED ? `<div class="voice-note">Voice input isn't supported in this browser — try Chrome on Android.</div>` : ''}
+    </div>`;
+    actionArea.innerHTML = `<button class="btn-primary" onclick="submitFlashAnswer()">✓ Submit</button>`;
+    const inp = document.getElementById('flashAnswerInput');
+    if(inp){
+      inp.focus();
+      inp.addEventListener('keydown', e=>{ if(e.key==='Enter' && inp.value!=='') submitFlashAnswer(); });
+    }
+  } else if(fl.phase==='pause'){
+    box.innerHTML = `<span class="flashmuted">Next round…</span>`;
+    actionArea.innerHTML='';
+  }
+}
+function submitFlashAnswer(){
+  const fl = state.flash, cfg = state.cfg;
+  const inp = document.getElementById('flashAnswerInput');
+  const given = inp ? inp.value : '';
+  if(given==='') return;
+  fl.results.push({q: fl.round, given, correct: fl.round.answer, decimals:0});
+  if(fl.roundIdx+1 >= cfg.rounds){
+    state.records = fl.results;
+    state.view='results';
+    renderResults();
+    return;
+  }
+  fl.phase='pause';
+  renderFlash();
+  setTimeout(()=>{
+    fl.roundIdx += 1;
+    fl.round = genFlashRound(cfg.digits, cfg.count);
+    fl.flashIdx = 0;
+    fl.phase = 'ready';
+    renderFlash();
+  }, 900);
+}
+
+/* ---------------- RESULTS ---------------- */
+function renderResults(){
+  const records = state.records;
+  const correctCount = records.filter(r=> answerMatches(r.given, r.correct, r.decimals||0)).length;
+  const pct = Math.round((correctCount/records.length)*100);
+  const rows = records.map(r=>{
+    const ok = answerMatches(r.given, r.correct, r.decimals||0);
+    const qtext = r.q.display ? r.q.display : (r.q.parts ? r.q.parts.map((p,j)=>formatSignedPart(p, r.decimals||0, j===0)).join(' ') : '');
+    const correctStr = formatMag(r.correct, r.decimals||0);
+    return `<div class="results-row" style="border:1px solid ${ok?'var(--success)':'var(--fail)'};">
+      <span style="font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:13px; flex:1;">${esc(qtext)}</span>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-family:'IBM Plex Mono',monospace; color:${ok?'var(--success)':'var(--fail)'}; font-size:14px;">${r.given===''?'—':esc(r.given)}</span>
+        ${!ok? `<span style="font-family:'IBM Plex Mono',monospace; color:var(--dim); font-size:14px;">(${correctStr})</span>`:''}
+        <span>${ok?'✓':'✕'}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  app.innerHTML = `
+  <div class="wrap">
+    <div class="eyebrow">Result</div>
+    <h2>${correctCount} / ${records.length} correct</h2>
+    <p class="sub" style="margin-top:2px;">${pct}% accuracy</p>
+    <div style="margin:22px 0;">${rows}</div>
+    <div style="display:flex; gap:10px;">
+      <button class="btn-primary" style="width:auto; padding:11px 22px;" onclick="renderHome()">↻ Retry</button>
+      <button class="btn-ghost" onclick="renderHome()">⌂ Home</button>
+    </div>
+  </div>`;
+}
+
+/* ---------------- boot ---------------- */
+renderHome();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
