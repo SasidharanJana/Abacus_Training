@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-<title>SIP Abacus Mock Exam — All Levels</title>
+<title>Abacus Mock Exam — All Levels</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1F1826">
 <link rel="icon" href="icon-192.png">
@@ -283,7 +283,7 @@ function startVoiceInput(targetId, btn){
 }
 
 /* ---------------- LEVEL DEFINITIONS ---------------- */
-/* SIP Abacus (India): 11 levels — Foundation 1-4, Advanced 1-4, Grand Master 1-3.
+/* Abacus levels — Foundation 1-4, Advanced 1-4, Grand Master 1-3.
    Exact per-level digit/timing specs aren't publicly published (they vary by
    centre) — these are a progressively-scaled scaffold, fully editable below. */
 const LEVELS = [
@@ -416,9 +416,9 @@ function renderHome(){
 
   app.innerHTML = `
   <div class="wrap">
-    <div class="eyebrow">SIP Abacus · Mock Exam Hall</div>
+    <div class="eyebrow">Abacus · Mock Exam Hall</div>
     <h1>${esc(lvl.module)} ${lvl.num}</h1>
-    <p class="sub">11-level structure — Foundation 1–4, Advanced 1–4, Grand Master 1–3 — scaled from SIP Abacus's published module progression. Digit counts, rows and timing are adjustable to match your own centre's paper exactly.</p>
+    <p class="sub">11-level structure — Foundation 1–4, Advanced 1–4, Grand Master 1–3 — scaled to a common abacus-training module progression. Digit counts, rows and timing are adjustable to match your own centre's paper exactly.</p>
     ${rodTimer(1)}
 
     <div class="module-tabs">

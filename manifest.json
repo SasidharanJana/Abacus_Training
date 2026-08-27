@@ -1,7 +1,7 @@
 {
-  "name": "SIP Abacus Mock Exam",
+  "name": "Abacus Mock Exam",
   "short_name": "Abacus Exam",
-  "description": "Timed mock exam practice across all SIP Abacus levels — Foundation, Advanced, and Grand Master.",
+  "description": "Timed mock exam practice across all abacus levels — Foundation, Advanced, and Grand Master.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
