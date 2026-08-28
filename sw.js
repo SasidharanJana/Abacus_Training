@@ -1,6 +1,7 @@
-const CACHE_NAME = 'sip-abacus-exam-v2';
+const CACHE_NAME = 'sip-abacus-exam-v3';
 const ASSETS = [
   './index.html',
+  './privacy.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'

@@ -540,6 +540,7 @@ function renderHome(){
     <div class="panel">${panel}</div>
     `}
     ${state.license.valid ? `<div class="unlocked-pill">🔓 Advanced &amp; Grand Master unlocked</div><br><span class="manage-license" onclick="forgetLicense()">Remove license from this device</span>` : ''}
+    <div style="margin-top:28px; text-align:center;"><a href="privacy.html" style="color:var(--dim); font-size:11px; text-decoration:underline;">Privacy Policy</a></div>
   </div>`;
 
   function field(label,id,val,min,max,suffix){
